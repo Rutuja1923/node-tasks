@@ -44,3 +44,23 @@ const userSchema = new Schema(
         timestamps: true
     }
 );
+
+//routes
+app.get('/',(req,res) => {
+    const link = `http://localhost:${PORT}/api/users`;
+    res.send(`Hey there! please try <a href='http://localhost:${PORT}/api/users'>http://localhost:${PORT}/api/users</a>`);
+});
+
+//to get list of all users
+app.get('/users',async (req,res) => {
+    const users = await User.find();
+    const html = 
+    `   <ul>
+            ${users.map((user) =>
+                    `<li>${user.first_name} ${user.last_name} (${user.job_title})</li>`
+                ).join('')
+            }
+        </ul>
+    `;
+    res.send(html);
+});
