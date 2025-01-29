@@ -64,3 +64,10 @@ app.get('/users',async (req,res) => {
     `;
     res.send(html);
 });
+
+//REST API routes
+//to get all user information
+app.get('/api/users', async (req,res) => {
+    const users = await User.find();
+    return res.json(users);
+});
