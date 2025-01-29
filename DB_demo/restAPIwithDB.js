@@ -45,6 +45,12 @@ const userSchema = new Schema(
     }
 );
 
+//create a User model from the schema
+const User = mongoose.model('user', userSchema);
+
+//middleware
+app.use(express.urlencoded({extended: false}));
+
 //routes
 app.get('/',(req,res) => {
     const link = `http://localhost:${PORT}/api/users`;
@@ -70,4 +76,50 @@ app.get('/users',async (req,res) => {
 app.get('/api/users', async (req,res) => {
     const users = await User.find();
     return res.json(users);
+});
+
+// to create a new user -> send data in request body
+app.post('/api/users',async(req,res) => {
+    const body = req.body;
+
+    if (!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title ){
+        return res.status(400).json(
+            {
+                "status": "Error",
+                "message": "All fields are needed!"
+            }
+        );
+    }
+    try {
+        const newUser = await User.create(
+            {
+                first_name: body.first_name,
+                last_name: body.last_name,
+                email: body.email,
+                gender: body.gender,
+                job_title: body.job_title
+            }
+        );
+        console.log(`Result: ${newUser}`);
+        return res.status(201).json(
+            {
+                status: 'Success',
+                message: 'User added successfully!',
+                userId: newUser.id
+            }
+        );
+    }
+    catch (err) {
+        console.error(`Server error: ${err.message}`)
+        res.status(500).json(
+            { 
+                status: 'Error', 
+                message: 'Failed to create user' 
+            }
+        );
+    } 
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
