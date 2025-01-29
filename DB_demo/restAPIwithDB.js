@@ -123,3 +123,30 @@ app.post('/api/users',async(req,res) => {
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+app
+    .route('/api/users/:id')
+    //to get user information about an user with specified id
+    .get(async (req,res) => {
+        const id = req.params.id;
+        try {     
+            const user = await User.findById(id);
+            if (!user) {
+                return res.status(404).json(
+                    {   
+                        status : `Not found`,
+                        message: `No user found with ID : ${id}`
+                    }
+                );
+            }
+            return res.json(user);
+        }
+        catch (err) {
+            res.status(500).json(
+                {
+                    status: 'Error', 
+                    message: 'Invalid user ID' 
+                }
+            );
+        }    
+    });
