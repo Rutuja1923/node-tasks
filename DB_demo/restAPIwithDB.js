@@ -120,10 +120,6 @@ app.post('/api/users',async(req,res) => {
     } 
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
-
 app
     .route('/api/users/:id')
     //to get user information about an user with specified id
@@ -187,6 +183,7 @@ app
             );
         }
     })
+    // to replace user details -> send data in request body
     .put( async (req,res) => {
         const id = req.params.id;
         try{
@@ -222,4 +219,39 @@ app
                 }
             );
         }
+    })
+    //to delete an user with specified id
+    .delete( async (req,res) => {
+        const id = req.params.id;
+        try {
+            const deletedUser = await User.findByIdAndDelete(req.params.id);
+            if (!deletedUser) {
+                return res.status(404).json(
+                    { 
+                        status: 'Error', 
+                        message: `User with ${id} not found` 
+                    }
+                );
+            }
+            return res.json(
+                { 
+                    status: 'Success', 
+                    message: 'User deleted successfully' 
+                }
+            );
+        } 
+        catch (err) {
+            console.eorror(`Server Error: ${err.message}`);
+            res.status(500).json(
+                { 
+                    status: 'Error', 
+                    message: 'Failed to delete user' 
+                }
+            );
+        }
     });
+
+
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+});
