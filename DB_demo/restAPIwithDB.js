@@ -186,4 +186,40 @@ app
                 }
             );
         }
+    })
+    .put( async (req,res) => {
+        const id = req.params.id;
+        try{
+            const replacedUser = await User.findOneAndReplace(
+                { _id: req.params.id }, 
+                req.body, 
+                { 
+                    new: true, 
+                }
+            );
+            if (!replacedUser){
+                return res.status(404).json(
+                    {
+                        status: 'Error',
+                        message: `User with ${id} not found.`
+                    }
+                );
+            }
+            return res.status(200).json(
+                {
+                    status: 'Success',
+                    message: 'User replaced successfully!',
+                    user: replacedUser
+                }
+            );
+        }
+        catch (err) {
+            console.error(`Server Error: ${err.message}`);
+            res.status(500).json(
+                { 
+                    status: 'Error', 
+                    message: 'Failed to replace user' 
+                }
+            );
+        }
     });
