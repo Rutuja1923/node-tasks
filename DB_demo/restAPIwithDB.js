@@ -149,4 +149,41 @@ app
                 }
             );
         }    
+    })
+    //to get change a user information -> send data in request body
+    .patch( async (req,res) => {
+        const id = req.params.id;
+        try{
+            const updatedUser = await User.findByIdAndUpdate(
+                req.params.id, 
+                req.body, 
+                { 
+                    new: true,
+                }
+            );
+            if (!updatedUser){
+                return res.status(404).json(
+                    {
+                        status: 'Error',
+                        message: `User with ${id} not found.`
+                    }
+                );
+            }
+            return res.status(200).json(
+                {
+                    status: 'Success',
+                    message: 'User updated successfully!',
+                    user: updatedUser
+                }
+            );
+        }
+        catch (err) {
+            console.eorror(`Server Error: ${err.message}`);
+            res.status(500).json(
+                { 
+                    status: 'Error', 
+                    message: 'Failed to update user' 
+                }
+            );
+        }
     });
