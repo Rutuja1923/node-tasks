@@ -135,13 +135,20 @@ app
                     }
                 );
             }
-            return res.json(user);
+            return res.status(200).json(
+                {
+                    status: 'Success',
+                    message: 'User found successfully!',
+                    user: user
+                }
+            );
         }
         catch (err) {
+            console.error(`Server error: ${err.message}`);
             res.status(500).json(
                 {
                     status: 'Error', 
-                    message: 'Invalid user ID' 
+                    message: 'Failed to retrieve user' 
                 }
             );
         }    
@@ -174,7 +181,7 @@ app
             );
         }
         catch (err) {
-            console.eorror(`Server Error: ${err.message}`);
+            console.error(`Server Error: ${err.message}`);
             res.status(500).json(
                 { 
                     status: 'Error', 
@@ -241,7 +248,7 @@ app
             );
         } 
         catch (err) {
-            console.eorror(`Server Error: ${err.message}`);
+            console.error(`Server Error: ${err.message}`);
             res.status(500).json(
                 { 
                     status: 'Error', 
@@ -250,7 +257,6 @@ app
             );
         }
     });
-
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
