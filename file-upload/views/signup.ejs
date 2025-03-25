@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Signup</h1>
+    <form action="/signup" method="POST" class="container">
+        <label for="user-name">Enter your full name :&nbsp;</label>
+        <input type="text" name="fullName" placeholder="Jane Smith" id="user-name">
+        <br> <br>
+        <label for="user-email">Enter your email :&nbsp;</label>
+        <input type="email" name="email" placeholder="janesmith21@example.com" id="user-email">
+        <br> <br>
+        <textarea name="about" placeholder="Tell us about yourself"></textarea>
+        <br> <br>
+        <input type="file" name="profileImage">
+        <br> <br>
+        <label for="user-pwd">Create a password :&nbsp;</label>
+        <input type="password" name="password" placeholder="Your Password" id="user-pwd">
+        <br> <br>
+        <button type="submit" id="signup-btn">Signup!</button>
+    </form>
+    <p>Already have an account? <a href="/login" class="btn">Log In</a></p>
+</body>
+</html>

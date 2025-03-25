@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Welcome, <%= user.fullName %></h1>
+    <p>Profile Image Path: <%= user.profileImage %></p>
+    <img src="<%= user.profileImage %>" alt="Profile Picture">
+    <p>Email: <%= user.email %></p>
+    <p>About: <%= user.about %></p>
+    <form action="/uploadProfilePic" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profileImage">
+        <button type="submit">Upload Profile Picture</button>
+    </form>
+</body>
+</html>
